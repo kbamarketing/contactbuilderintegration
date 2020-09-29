@@ -2,6 +2,10 @@
 
 namespace kbamarketing\contactbuilderintegration\services;
 
+use kbamarketing\contactbuilderintegration\Plugin;
+
+Use Craft;
+
 use SimpleXMLElement;
 use craft\base\Component;
 
@@ -10,7 +14,7 @@ class Service extends Component
 
     protected $settings = [];
 
-    public function add( BaseElementModel $entry )
+    public function add( \craft\elements\Entry $entry )
     {
 
         $clientName = $this->getSetting('cbClientName');
@@ -34,7 +38,7 @@ class Service extends Component
 
             $xml = $xml->asXML();
 
-            ContactBuilderIntegrationPlugin::log('Submitted XML: ' . $xml, LogLevel::Warning);
+            Craft::warning('Submitted XML: ' . $xml, 'ContactBuilderIntegation');
 
             curl_setopt($ch, CURLOPT_URL,"https://$clientName.contact-builder.co.uk/api/add.asp");
             curl_setopt($ch, CURLOPT_POST, 1);
@@ -171,7 +175,7 @@ class Service extends Component
     public function getSetting( $name = '' )
     {
         if ($this->settings == null) {
-            $this->settings = Craft::$app->plugins->getPlugin('contactbuilderintegration')->getSettings();
+            $this->settings = Plugin::getInstance()->getSettings();
         }
 
         return $this->settings[$name];
@@ -183,7 +187,7 @@ class Service extends Component
      */
     private function getMessage($response, $data, $xml, $headerSent) {
 
-        ContactBuilderIntegrationPlugin::log('CB Response: ' . $response, LogLevel::Warning);
+        Craft::warning('CB Response: ' . $response, 'ContactBuilderIntegration');
 
         if( ! empty( $response['status']['statuscode'] ) ) {
 
@@ -212,7 +216,7 @@ class Service extends Component
      *
      * @return array
      */
-    private function getPayloadFields( BaseElementModel $entry )
+    private function getPayloadFields( \craft\elements\Entry $entry )
     {
         $fields = array();
         $ignore = array(

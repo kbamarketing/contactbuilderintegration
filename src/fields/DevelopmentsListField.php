@@ -10,6 +10,8 @@
 
 namespace kbamarketing\contactbuilderintegration\fields;
 
+use kbamarketing\contactbuilderintegration\Plugin;
+
 use Craft;
 use craft\base\ElementInterface;
 use craft\base\Field;
@@ -122,7 +124,7 @@ class DevelopmentsListField extends Field
     public function getSetting( $name = '' )
     {
         if ($this->settings == null) {
-            $this->settings = Craft::$app->plugins->getPlugin('contactbuilderintegration')->getSettings();
+            $this->settings = Plugin::getInstance()->getSettings();
         }
 
         return $this->settings[$name];

@@ -42,7 +42,7 @@ class Plugin extends \craft\base\Plugin
 				    			    
 				    $message = Craft::$app->contactBuilderIntegration->add($entry);
 				    
-				    static::log($message);
+				    Craft::info($message, 'ContactBuilderIntegration');
 				    
 				    Craft::$app->urlManager->setRouteVariables(array('contactBuilderIntegration' => $message));
 				    
