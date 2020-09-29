@@ -1,0 +1,122 @@
+{% import "_includes/forms" as forms %}
+<style>
+  .setting-is-disabled { font-size: 11px; font-style: italic; color: #999; }
+</style>
+
+<div class="field" id="cbClientName-field">
+  <div class="heading">
+    <label for="cbClientName">Client Name</label>
+		<p class="instructions">{{ "This is your Contact Builder username that prepends the URL, e.g. http://{username}.contact-builder.co.uk/api/add.asp" | t }}</p>
+  </div>
+	<div class="input">
+		<input class="text fullwidth" type="text" id="cbClientName" name="cbClientName" value="{{ settings.cbClientName }}">
+	</div>
+</div>
+
+<div class="field" id="cbApikey-field">
+  <div class="heading">
+    <label for="cbApikey">API Key</label>
+		<p class="instructions">{{ "This is the API Key / Password for your Contact Builder account" | t }}</p>
+  </div>
+	<div class="input">
+		<input class="text fullwidth" type="text" id="cbApikey" name="cbApikey" value="{{ settings.cbApikey }}">
+	</div>
+</div>
+
+<div class="field" id="cbFieldMap-field">
+  <div class="heading">
+    <label for="cbFieldMap">Field Mapping</label>
+		<p class="instructions">{{ "Field mapping, one field per row, {handle}:{contactBuilderField}" | t }}</p>
+  </div>
+	<div class="input">
+		<table class="editable draggable">
+			<tbody id="fieldMapRows">
+			{% for map in settings.cbFieldMap %}
+			<tr class="fieldMapRow">
+				<td>
+					<input class="text fullwidth" type="text" id="cbFieldMap_{{ loop.index0 }}_key" name="cbFieldMap[{{ loop.index0 }}][key]" value="{{ map.key }}">
+				</td>
+				
+				<td>
+					<input class="text fullwidth" type="text" id="cbFieldMap_{{ loop.index0 }}_value" name="cbFieldMap[{{ loop.index0 }}][value]" value="{{ map.value }}">
+				</td>
+				<td class="thin action">
+					<a href="#" class="delete icon" onClick="return deleteRow(this);"></a>
+				</td>
+			</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+		<div class="buttons">
+			<a href="#" class="btn add icon" onClick="return addRow(this);">Field</a>
+		</div>
+	</div>
+</div>
+
+<script type="text/html" id="fieldMapRow">
+	
+	<tr class="fieldMapRow">
+		<td>
+			<input class="text fullwidth" type="text" id="cbFieldMap_{ index }_key" name="cbFieldMap[{ index }][key]">
+		</td>
+		<td>
+			<input class="text fullwidth" type="text" id="cbFieldMap_{ index }_value" name="cbFieldMap[{ index }][value]">
+		</td>
+		<td class="thin action">
+			<a href="#" class="delete icon" onClick="return deleteRow(this);"></a>
+		</td>
+	</tr>
+	
+</script>
+
+<script type="text/javascript">
+	
+	String.prototype.replaceAll = function(str1, str2, ignore) {
+	    return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),(ignore?"gi":"g")),(typeof(str2)=="string")?str2.replace(/\$/g,"$$$$"):str2);
+	}
+	
+	var rows = document.getElementById('settings-fieldMapRows'),
+		count = rows.querySelectorAll('tr').length;
+	
+	function addRow() {
+		
+		var row = document.getElementById('settings-fieldMapRow').cloneNode(true).innerHTML;
+			
+		row = row.replaceAll('{ index }', count);
+		
+		rows.insertAdjacentHTML('beforeend', row); 
+		
+		count++;
+		
+		return false;
+		
+	}
+	
+	function findAncestor(el, cls) {
+		
+	    while ( (el = el.parentElement) && ! el.classList.contains(cls) );
+	    
+	    return el;
+	}
+	
+	function deleteRow(el) {
+		
+		var ancestor = findAncestor(el, 'fieldMapRow');
+		
+		ancestor.parentNode.removeChild( ancestor );
+		
+		return false;
+		
+	}
+	
+</script>
+
+<div class="field" id="cbEvents-field">
+  <div class="heading">
+    <label for="cbEvents">Events</label>
+		<p class="instructions">{{ "Events to trigger the integration with, one event per row" | t }}</p>
+  </div>
+	<div class="input">
+		<textarea id="cbEvents" class="text fullwidth" name="cbEvents">{{ settings.cbEvents }}</textarea>
+	</div>
+</div>

@@ -1,0 +1,26 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * contactbuilderintegration plugin for Craft CMS
+ *
+ * ContactbuilderintegrationField Field Settings
+ *
+ * @author    Aduro
+ * @copyright Copyright (c) 2020 Aduro
+ * @link      https://weareaduro.com
+ * @package   Contactbuilderintegration
+ * @since     1.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("kbamarketing\\contactbuilderintegration\\assetbundles\\contactbuilderintegration\\ContactbuilderintegrationAsset") %}
+
+{{ forms.textField({
+    label: 'Some Attribute',
+    instructions: 'Enter some attribute here.',
+    id: 'someAttribute',
+    name: 'someAttribute',
+    value: field['someAttribute']})
+}}
