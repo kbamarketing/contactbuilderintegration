@@ -1,45 +1,35 @@
 {
-    "name": "kbamarketing/contactbuilderintegration",
-    "description": "A plugin to integrate with contact builder",
-    "type": "craft-plugin",
-    "version": "1.0.0",
-    "keywords": [
-        "craft",
-        "cms",
-        "craftcms",
-        "craft-plugin",
-        "contactbuilderintegration"
-    ],
-    "support": {
-        "docs": "???",
-        "issues": "???"
-    },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Aduro",
-            "homepage": "https://weareaduro.com"
-        }
-    ],
-    "require": {
-        "craftcms/cms": "^3.0.0"
-    },
-    "autoload": {
-        "psr-4": {
-          "KBAMarketing\\ContactBuilderIntegration\\": "src/"
-        }
-    },
-    "extra": {
-        "name": "Contact Builder Integration",
-        "handle": "contactbuilderintegration",
-        "developer": "Aduro",
-        "developerUrl": "https://weareaduro.com",
-        "documentationUrl": "???",
-        "changelogUrl": "???",
-        "components": {
-            "contactbuilderintegrationService": "KBAMarketing\\ContactBuilderIntegration\\services\\ContactbuilderintegrationService"
-        },
-        "class": "KBAMarketing\\ContactBuilderIntegration\\Contactbuilderintegration",
-        "basePath": "src/"
+  "name": "kbamarketing/contactbuilderintegration",
+  "description": "A plugin to integrate with contact builder",
+  "type": "craft-plugin",
+  "version": "1.0.0",
+  "keywords": ["some", "keywords", "here"],
+  "license": "MIT",
+  "authors": [
+  {
+    "name": "Aduro",
+    "homepage": "https://weareaduro.com"
+	}
+	],
+  "support": {
+    "email": "email@developer-website.tld",
+    "issues": "https://github.com/developer/repo/issues?state=open",
+    "source": "https://github.com/developer/repo",
+    "docs": "https://github.com/developer/repo/blob/master/README.md"
+  },
+  "require": {
+    "craftcms/cms": "^3.1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "kbamarketing\\contactbuilderintegration\\": "src/"
     }
+  },
+  "extra": {
+    "name": "Contact Builder Integration",
+    "handle": "contactbuilderintegration",
+    "components": {
+        "contactBuilderIntegration": "kbamarketing\\contactbuilderintegration\\services\\Service"
+    }
+  }
 }

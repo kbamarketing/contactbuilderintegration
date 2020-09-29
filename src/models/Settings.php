@@ -1,6 +1,6 @@
 <?php
 
-namespace KBAMarketing\ContactBuilderIntegration\models;
+namespace kbamarketing\contactbuilderintegration\models;
 
 use craft\base\Model;
 
@@ -10,11 +10,19 @@ class Settings extends Model
     public $cbApikey = '';
     public $cbFieldMap = [];
     public $cbEvents = 'sproutForms.saveEntry';
+    
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+    }
 
     public function rules()
     {
         return [
-            [['cbClientName', 'cbApikey', 'cbFieldMap', 'cbEvents']]
+            [['cbClientName', 'cbApikey', 'cbEvents'], 'required']
             // ...
         ];
     }
