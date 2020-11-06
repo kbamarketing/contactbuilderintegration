@@ -72,7 +72,7 @@ class DevelopmentsListField extends Field
 	    	
 	    	foreach($divisions as $division) {
 	    	
-		    	$regions = empty( $division['region']['id'] ) ? $division['region'] : array( $division['region'] );
+		    	$regions = is_array($division) ? ( empty( $division['region']['id'] ) ? ( ! empty( $division['region'] ) ? $division['region'] : $division ) : array( $division['region'] ) ) : [];
 		    	
 		    	foreach($regions as $region) {
 			    	

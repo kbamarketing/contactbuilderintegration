@@ -7,6 +7,9 @@ use yii\base\Event;
 use craft\services\Fields;
 use craft\events\RegisterComponentTypesEvent;
 
+use barrelstrength\sproutforms\elements\Entry;
+use kbamarketing\contactbuilderintegration\services\Service;
+
 class Plugin extends \craft\base\Plugin
 {
 	public $hasCpSettings = true;
@@ -24,27 +27,40 @@ class Plugin extends \craft\base\Plugin
             }
         );
         
+        $this->setComponents([
+	        'service' => Service::class,
+	    ]);
+        
         $events = array_filter( explode("\r\n", $this->getSettings()['cbEvents'] ) );
 	    
 	    foreach( $events as $event ) {
-	    
-		    Craft::$app->on($event, function(Event $event) {
+		    
+		    Event::on(Entry::class, $event, function(Event $event) {
 			    
-			    $entry = $event->params['entry'];
+			    if (Craft::$app->request->isSiteRequest)
+		        {
+		            // The Form Entry Element is available via the $event->sender attribute     
+		            $entry = $event->sender;
+		        }
+		        
+		        if (Craft::$app->request->isCpRequest)
+		        {
+		            $entry = $event->sender;
+		        }
 
-                if ( array_key_exists('enquiryType', $entry->getContent()->getAttributes() ) ) {
-                    if ($entry->getContent()->getAttributes()['enquiryType'] === "general" ) {
+                if ( array_key_exists('enquiryType', $entry->getAttributes() ) ) {
+                    if ($entry->getAttributes()['enquiryType'] === "general" ) {
                         return false;
                     }
                 }
 
-			    if( $entry->getContent()->getAttribute('contactBuilder') || $entry->getContent()->getAttribute('contactBuilderDevelopmentId') ) {
+			    if( $entry->getAttributes()['contactBuilder'] || $entry->getAttributes()['contactBuilderDevelopmentId'] ) {
 				    			    
-				    $message = Craft::$app->contactBuilderIntegration->add($entry);
+				    $message = $this->service->add($entry);
 				    
 				    Craft::info($message, 'ContactBuilderIntegration');
 				    
-				    Craft::$app->urlManager->setRouteVariables(array('contactBuilderIntegration' => $message));
+				    Craft::$app->getUrlManager()->setRouteParams(array('contactBuilderIntegration' => $message));
 				    
 				}
 			    

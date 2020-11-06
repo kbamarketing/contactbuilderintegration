@@ -9,7 +9,7 @@ class Settings extends Model
     public $cbClientName = '';
     public $cbApikey = '';
     public $cbFieldMap = [];
-    public $cbEvents = 'sproutForms.saveEntry';
+    public $cbEvents = 'afterSave';
     
     /**
      * @inheritdoc

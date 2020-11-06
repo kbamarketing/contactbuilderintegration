@@ -8,13 +8,14 @@ Use Craft;
 
 use SimpleXMLElement;
 use craft\base\Component;
+use barrelstrength\sproutforms\elements\Entry;
 
 class Service extends Component
 {
 
     protected $settings = [];
 
-    public function add( \craft\elements\Entry $entry )
+    public function add( Entry $entry )
     {
 
         $clientName = $this->getSetting('cbClientName');
@@ -216,7 +217,7 @@ class Service extends Component
      *
      * @return array
      */
-    private function getPayloadFields( \craft\elements\Entry $entry )
+    private function getPayloadFields( Entry $entry )
     {
         $fields = array();
         $ignore = array(
@@ -228,7 +229,7 @@ class Service extends Component
             'element',
             'elementId',
         );
-        $content = $entry->getContent()->getAttributes();
+        $content = $entry->getAttributes();
         foreach ($content as $field => $value)
         {
             if (!in_array($field, $ignore))
