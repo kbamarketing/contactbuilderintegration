@@ -49,7 +49,7 @@ class Plugin extends \craft\base\Plugin
 		        }
 
                 if ( array_key_exists('enquiryType', $entry->getAttributes() ) ) {
-                    if ($entry->getAttributes()['enquiryType'] === "general" ) {
+                    if ($entry->getAttributes()['enquiryType']->value === "general" ) {
                         return false;
                     }
                 }
